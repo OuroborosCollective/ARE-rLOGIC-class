@@ -78,5 +78,15 @@ jobs:
           sha256sum /tmp/audit1.json /tmp/audit2.json
           cmp /tmp/audit1.json /tmp/audit2.json
 
+      - name: Run full evidence pipeline twice
+        run: |
+          python aurion_lab/run_pipeline.py aurion_lab/fixtures/sample_transitions.jsonl aurion_lab/fixtures/sample_validation_transitions.jsonl /tmp/run1 --gamma 0.9
+          python aurion_lab/run_pipeline.py aurion_lab/fixtures/sample_transitions.jsonl aurion_lab/fixtures/sample_validation_transitions.jsonl /tmp/run2 --gamma 0.9
+
+      - name: Verify manifest reproducibility
+        run: |
+          sha256sum /tmp/run1/manifest.json /tmp/run2/manifest.json
+          cmp /tmp/run1/manifest.json /tmp/run2/manifest.json
+
       - name: BoxLite capability preflight
         run: python aurion_lab/boxlite_preflight.py
