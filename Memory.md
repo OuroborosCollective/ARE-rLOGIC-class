@@ -1,0 +1,1 @@
+- 2026-10-05 — Änderung: isolierter `aurion_lab`-Replay mit optionalem BoxLite-Preflight; Erkenntnis: der Offline-Pfad bleibt ohne BoxLite/KVM funktionsfähig und byte-reproduzierbar; Evidence: 4/4 Regressionstests grün, zwei unabhängige Replays identisch (`SHA-256 c34042fd00b08a423e72a760c01cc4b77a9b1da39ae84bff51a3f9bb26b2fdc5`) in Python 3.12 HF Sandbox.
