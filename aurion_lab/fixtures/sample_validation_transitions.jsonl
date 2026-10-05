@@ -1,0 +1,3 @@
+{"schema":"aurion.rl.transition.v1","episode_id":"validation-a","tick":0,"observation":{"hostile":true,"zone":"field"},"action":{"target":"slime-1","type":"attack"},"reward":2,"terminal":true}
+{"schema":"aurion.rl.transition.v1","episode_id":"validation-b","tick":0,"observation":{"hostile":false,"zone":"field"},"action":{"direction":"east","type":"move"},"reward":0,"terminal":true}
+{"schema":"aurion.rl.transition.v1","episode_id":"validation-c","tick":0,"observation":{"hostile":true,"zone":"cave"},"action":{"type":"wait"},"reward":0,"terminal":true}

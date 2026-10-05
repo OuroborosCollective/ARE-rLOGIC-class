@@ -38,6 +38,16 @@ jobs:
       - name: Regression tests
         run: python -m unittest discover -s aurion_lab/tests -v
 
+      - name: Guard train/validation split twice
+        run: |
+          python aurion_lab/split_guard.py aurion_lab/fixtures/sample_transitions.jsonl aurion_lab/fixtures/sample_validation_transitions.jsonl /tmp/split1.json
+          python aurion_lab/split_guard.py aurion_lab/fixtures/sample_transitions.jsonl aurion_lab/fixtures/sample_validation_transitions.jsonl /tmp/split2.json
+
+      - name: Verify split report byte reproducibility
+        run: |
+          sha256sum /tmp/split1.json /tmp/split2.json
+          cmp /tmp/split1.json /tmp/split2.json
+
       - name: Replay twice
         run: |
           python aurion_lab/replay.py aurion_lab/fixtures/sample_observations.jsonl /tmp/out1.jsonl
@@ -57,6 +67,16 @@ jobs:
         run: |
           sha256sum /tmp/policy1.json /tmp/policy2.json
           cmp /tmp/policy1.json /tmp/policy2.json
+
+      - name: Audit policy support twice
+        run: |
+          python aurion_lab/policy_audit.py /tmp/policy1.json aurion_lab/fixtures/sample_validation_transitions.jsonl /tmp/audit1.json
+          python aurion_lab/policy_audit.py /tmp/policy1.json aurion_lab/fixtures/sample_validation_transitions.jsonl /tmp/audit2.json
+
+      - name: Verify audit byte reproducibility
+        run: |
+          sha256sum /tmp/audit1.json /tmp/audit2.json
+          cmp /tmp/audit1.json /tmp/audit2.json
 
       - name: BoxLite capability preflight
         run: python aurion_lab/boxlite_preflight.py
