@@ -88,5 +88,10 @@ jobs:
           sha256sum /tmp/run1/manifest.json /tmp/run2/manifest.json
           cmp /tmp/run1/manifest.json /tmp/run2/manifest.json
 
+      - name: Verify evidence bundle
+        run: |
+          python aurion_lab/verify_manifest.py /tmp/run1/manifest.json
+          python aurion_lab/verify_manifest.py /tmp/run2/manifest.json
+
       - name: BoxLite capability preflight
         run: python aurion_lab/boxlite_preflight.py
