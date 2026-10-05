@@ -58,5 +58,15 @@ jobs:
           sha256sum /tmp/policy1.json /tmp/policy2.json
           cmp /tmp/policy1.json /tmp/policy2.json
 
+      - name: Audit policy support twice
+        run: |
+          python aurion_lab/policy_audit.py /tmp/policy1.json aurion_lab/fixtures/sample_validation_transitions.jsonl /tmp/audit1.json
+          python aurion_lab/policy_audit.py /tmp/policy1.json aurion_lab/fixtures/sample_validation_transitions.jsonl /tmp/audit2.json
+
+      - name: Verify audit byte reproducibility
+        run: |
+          sha256sum /tmp/audit1.json /tmp/audit2.json
+          cmp /tmp/audit1.json /tmp/audit2.json
+
       - name: BoxLite capability preflight
         run: python aurion_lab/boxlite_preflight.py
