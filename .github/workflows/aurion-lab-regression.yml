@@ -93,5 +93,17 @@ jobs:
           python aurion_lab/verify_manifest.py /tmp/run1/manifest.json
           python aurion_lab/verify_manifest.py /tmp/run2/manifest.json
 
+      - name: Pack deterministic archives twice
+        run: |
+          python aurion_lab/pack_bundle.py /tmp/run1 /tmp/bundle1.zip
+          python aurion_lab/pack_bundle.py /tmp/run2 /tmp/bundle2.zip
+
+      - name: Verify archive reproducibility and integrity
+        run: |
+          sha256sum /tmp/bundle1.zip /tmp/bundle2.zip
+          cmp /tmp/bundle1.zip /tmp/bundle2.zip
+          python aurion_lab/verify_bundle.py /tmp/bundle1.zip
+          python aurion_lab/verify_bundle.py /tmp/bundle2.zip
+
       - name: BoxLite capability preflight
         run: python aurion_lab/boxlite_preflight.py
