@@ -1,0 +1,62 @@
+name: Aurion Lab Regression
+
+on:
+  pull_request:
+    paths:
+      - "aurion_lab/**"
+      - "Memory.md"
+      - ".github/workflows/aurion-lab-regression.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "aurion_lab/**"
+      - "Memory.md"
+      - ".github/workflows/aurion-lab-regression.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deterministic-replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Regression tests
+        run: python -m unittest discover -s aurion_lab/tests -v
+
+      - name: Replay twice
+        run: |
+          python aurion_lab/replay.py aurion_lab/fixtures/sample_observations.jsonl /tmp/out1.jsonl
+          python aurion_lab/replay.py aurion_lab/fixtures/sample_observations.jsonl /tmp/out2.jsonl
+
+      - name: Verify replay byte reproducibility
+        run: |
+          sha256sum /tmp/out1.jsonl /tmp/out2.jsonl
+          cmp /tmp/out1.jsonl /tmp/out2.jsonl
+
+      - name: Train deterministic offline value baseline twice
+        run: |
+          python aurion_lab/offline_value.py aurion_lab/fixtures/sample_transitions.jsonl /tmp/policy1.json --gamma 0.9
+          python aurion_lab/offline_value.py aurion_lab/fixtures/sample_transitions.jsonl /tmp/policy2.json --gamma 0.9
+
+      - name: Verify policy byte reproducibility
+        run: |
+          sha256sum /tmp/policy1.json /tmp/policy2.json
+          cmp /tmp/policy1.json /tmp/policy2.json
+
+      - name: BoxLite capability preflight
+        run: python aurion_lab/boxlite_preflight.py

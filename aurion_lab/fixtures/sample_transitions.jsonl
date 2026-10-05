@@ -1,0 +1,6 @@
+{"schema":"aurion.rl.transition.v1","episode_id":"episode-a","tick":0,"observation":{"hostile":true,"zone":"field"},"action":{"target":"slime-1","type":"attack"},"reward":3,"terminal":false}
+{"schema":"aurion.rl.transition.v1","episode_id":"episode-a","tick":1,"observation":{"hostile":false,"zone":"field"},"action":{"type":"wait"},"reward":1,"terminal":true}
+{"schema":"aurion.rl.transition.v1","episode_id":"episode-b","tick":0,"observation":{"hostile":true,"zone":"field"},"action":{"direction":"north","type":"move"},"reward":0,"terminal":false}
+{"schema":"aurion.rl.transition.v1","episode_id":"episode-b","tick":1,"observation":{"hostile":false,"zone":"field"},"action":{"type":"wait"},"reward":1,"terminal":true}
+{"schema":"aurion.rl.transition.v1","episode_id":"episode-c","tick":0,"observation":{"hostile":true,"zone":"field"},"action":{"target":"slime-1","type":"attack"},"reward":2,"terminal":false}
+{"schema":"aurion.rl.transition.v1","episode_id":"episode-c","tick":1,"observation":{"hostile":false,"zone":"field"},"action":{"type":"wait"},"reward":1,"terminal":true}
