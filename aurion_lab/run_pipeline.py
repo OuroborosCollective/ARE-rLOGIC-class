@@ -12,6 +12,7 @@ from pathlib import Path
 if __package__ in {None, ""}:
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
+from aurion_lab.code_provenance import collect as collect_code_provenance
 from aurion_lab.offline_value import decimal_from_json, read_jsonl, train, write_model
 from aurion_lab.policy_audit import audit, write_report
 from aurion_lab.split_guard import guard, write_report as write_split_report
@@ -58,6 +59,7 @@ def run(train_path: Path, validation_path: Path, output_dir: Path, gamma_text: s
             "train": {"path": train_path.as_posix(), "sha256": sha256(train_path)},
             "validation": {"path": validation_path.as_posix(), "sha256": sha256(validation_path)},
         },
+        "implementation": collect_code_provenance(),
         "artifacts": {
             "split": {"path": "split.json", "sha256": sha256(split_path)},
             "policy": {"path": "policy.json", "sha256": sha256(policy_path)},
