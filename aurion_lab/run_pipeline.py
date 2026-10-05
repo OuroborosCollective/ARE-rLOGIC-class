@@ -59,9 +59,9 @@ def run(train_path: Path, validation_path: Path, output_dir: Path, gamma_text: s
             "validation": {"path": validation_path.as_posix(), "sha256": sha256(validation_path)},
         },
         "artifacts": {
-            "split": {"path": split_path.as_posix(), "sha256": sha256(split_path)},
-            "policy": {"path": policy_path.as_posix(), "sha256": sha256(policy_path)},
-            "audit": {"path": audit_path.as_posix(), "sha256": sha256(audit_path)},
+            "split": {"path": "split.json", "sha256": sha256(split_path)},
+            "policy": {"path": "policy.json", "sha256": sha256(policy_path)},
+            "audit": {"path": "audit.json", "sha256": sha256(audit_path)},
         },
         "summary": {
             "split_status": split["status"],
