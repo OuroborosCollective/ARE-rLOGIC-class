@@ -8,6 +8,7 @@ import json
 from pathlib import Path
 
 CORE_FILES = (
+    "code_provenance.py",
     "offline_value.py",
     "policy_audit.py",
     "split_guard.py",
